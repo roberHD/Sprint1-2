@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Mr. Sandwich</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  </head>
+  
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <body>
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="inicio.HTML">Mr. Sandwich</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="inicio.HTML">Inicio</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="Pedir.HTML">Pedir</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="Carrito.HTML">Carrito</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="Login.HTML" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Login
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                    <li><a class="dropdown-item" href="Login.HTML">Login</a></li>
+                                    <li><a class="dropdown-item" href="Mispedidos.HTML">Mis pedidos</a></li>
+                                    <li><a class="dropdown-item" href="#">Contacto</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+
+        <div class="container mt-5">
+            <div class="row justify-content-center">
+                <div class="col-md-10">
+                    <div class="card">
+                        <div class="card-header text-center">
+                            <h4>Mis Pedidos</h4>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="table-responsive">
+                                <table class="table table-striped mb-0">
+                                    <thead class="table-dark">
+                                        <tr>
+                                            <th scope="col">N° Pedido</th>
+                                            <th scope="col">Items</th>
+                                            <th scope="col">Estado</th>
+                                            <th scope="col">Fecha</th>
+                                            <th scope="col">Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>#12348</td>
+                                            <td>
+                                                <a href="Detallepedido2.HTML" class="text-decoration-none">Sándwich de Lomo (con extra cebolla)</a>
+                                            </td>
+                                            <td><span class="badge bg-success">Entregado</span></td>
+                                            <td>05/10/2025</td>
+                                            <td>$18.000</td>
+                                        </tr>
+                                        <tr>
+                                            <td>#12349</td>
+                                            <td>
+                                                <a href="Detallepedido.HTML" class="text-decoration-none">Wrap Italiano (doble porción)</a> 
+                                            </td>
+                                            <td><span class="badge bg-warning">En Camino</span></td>
+                                            <td>04/10/2025</td>
+                                            <td>$12.500</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="card-footer text-center text-muted">
+                                <small>No hay más pedidos. <a href="#">Ver historial completo</a></small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
