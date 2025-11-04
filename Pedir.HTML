@@ -58,10 +58,12 @@
                             </h5>
                             <div class="d-flex justify-content-between align-items-center mt-2">
                                 <p class="fw-semibold mb-0">$9.390</p>
-                                <button class="btn btn-dark rounded-circle d-flex align-items-center justify-content-center"
+                                <button class="btn btn-dark rounded-circle d-flex align-items-center justify-content-center add-to-cart"
+                                        data-nombre="Arma tu Wrap" data-precio="10990"
                                         style="width: 36px; height: 36px;">
-                                <span class="fs-5">+</span>
+                                    <span class="fs-5">+</span>
                                 </button>
+
                             </div>
                         </div>
 
@@ -80,7 +82,8 @@
                             </h5>
                             <div class="d-flex justify-content-between align-items-center mt-2">
                                 <p class="fw-semibold mb-0">$9.390</p>
-                                <button class="btn btn-dark rounded-circle d-flex align-items-center justify-content-center"
+                                <button class="btn btn-dark rounded-circle d-flex align-items-center justify-content-center add-to-cart"
+                                        data-nombre="Arma tu Sandwich" data-precio="10990"
                                         style="width: 36px; height: 36px;">
                                     <span class="fs-5">+</span>
                                 </button>
@@ -107,9 +110,10 @@
                             </h5>
                             <div class="d-flex justify-content-between align-items-center mt-2">
                                 <p class="fw-semibold mb-0">$10.990</p>
-                                <button class="btn btn-dark rounded-circle d-flex align-items-center justify-content-center"
+                                <button class="btn btn-dark rounded-circle d-flex align-items-center justify-content-center add-to-cart"
+                                        data-nombre="Wrap Italiano" data-precio="10990"
                                         style="width: 36px; height: 36px;">
-                                <span class="fs-5">+</span>
+                                    <span class="fs-5">+</span>
                                 </button>
                             </div>
                         </div>
@@ -134,9 +138,10 @@
                             </h5>
                             <div class="d-flex justify-content-between align-items-center mt-2">
                                 <p class="fw-semibold mb-0">$9.390</p>
-                                <button class="btn btn-dark rounded-circle d-flex align-items-center justify-content-center"
+                                <button class="btn btn-dark rounded-circle d-flex align-items-center justify-content-center add-to-cart"
+                                        data-nombre="Sandwich de lomo" data-precio="10990"
                                         style="width: 36px; height: 36px;">
-                                <span class="fs-5">+</span>
+                                    <span class="fs-5">+</span>
                                 </button>
                             </div>
                         </div>
@@ -144,5 +149,42 @@
                 </div>
             </div>
         </div>
+
+
+
+        <script>
+            // js/carrito.js
+            document.addEventListener("DOMContentLoaded", () => {
+            // Selecciona todos los botones "add-to-cart"
+                const botones = document.querySelectorAll(".add-to-cart");
+
+                botones.forEach(btn => {
+                    btn.addEventListener("click", () => {
+                        const nombre = btn.dataset.nombre || btn.closest(".card").querySelector(".card-title a")?.innerText?.trim();
+                        const precioStr = btn.dataset.precio || btn.closest(".card").querySelector(".precio")?.innerText || "0";
+                        // normalizar precio a número (si viene con $ o .)
+                        const precio = Number(String(precioStr).replace(/\D/g, "")) || 0;
+
+                        // leer carrito del localStorage
+                        const raw = localStorage.getItem("miCarrito");
+                        const carrito = raw ? JSON.parse(raw) : [];
+
+                        // crear item (puedes ampliar con id, cantidad, etc.)
+                        carrito.push({ nombre, precio, cantidad: 1, fecha: new Date().toISOString() });
+
+                        // guardar de nuevo
+                        localStorage.setItem("miCarrito", JSON.stringify(carrito));
+
+                        // feedback
+                        alert(`✅ "${nombre}" agregado al carrito`);
+                    });
+                });
+            });
+        </script>
     </body>    
 </html>
+
+
+
+
+

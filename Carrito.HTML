@@ -50,20 +50,8 @@
                         <h2 class="fw-bold mb-4">Resumen del Carrito</h2>
                     </div>
 
-                    <!-- Producto en carrito -->
-                    <div class="col-md-12 mb-4">
-                        <div class="row align-items-center">
-                            <div class="col-md-2 text-center">
-                                <img src="img/Wrapita.png" alt="Wrap Italiano" class="img-fluid rounded" style="max-width: 100px;">
-                                <p class="mt-2 text-muted small">Producto</p>
-                            </div>
-                            <div class="col-md-10">
-                                <h5 class="fw-bold">Wrap Italiano</h5>
-                                <p class="text-secondary small mb-1">Tamaño: Grande | Ingredientes: Choclo, Pollo, Palta, Tomate, Lechuga | Extras: Cebolla, Queso | Salsa: Italiana especial</p>
-                                <p class="fs-5 text-success fw-bold">$18.996</p>
-                            </div>
-                        </div>
-                    </div>
+                    <div id="contenedor-carrito"></div>
+
 
                     <!-- Opciones de entrega -->
                     <div class="col-md-12 mb-3">
@@ -97,11 +85,11 @@
                             <option>Efectivo al retiro</option>
                         </select>
                     </div>
-
                     
-                    <div class="col-md-12 mb-3">
-                        <h4 class="fw-bold text-success">Total: $18.996</h4>
-                    </div>
+                <ul id="lista-carrito" class="list-group mb-3"></ul>
+                    <h4 id="total" class="fw-bold text-success mt-3"></h4>
+                    <button id="vaciar" class="btn btn-danger">Vaciar carrito</button>
+
                     <div class="col-md-12">
                         <button type="button" class="btn btn-dark w-100 mb-3" onclick="confirmarPedido()">Confirmar Pedido</button>
                     </div>
@@ -116,5 +104,99 @@
                 </div>
             </div>
         </div>
+
+
+        <script>
+        function formatearPrecio(n) {
+            return n.toLocaleString('es-CL', { style: 'currency', currency: 'CLP', maximumFractionDigits: 0 });
+        }
+
+        function renderCarrito() {
+            const raw = localStorage.getItem("miCarrito");
+            const carrito = raw ? JSON.parse(raw) : [];
+            const contenedor = document.getElementById("contenedor-carrito");
+            const totalTxt = document.getElementById("total");
+            const vaciarBtn = document.getElementById("vaciar");
+
+            contenedor.innerHTML = "";
+
+            if (carrito.length === 0) {
+                contenedor.innerHTML = '<p class="text-muted text-center mt-3">El carrito está vacío</p>';
+                totalTxt.textContent = "";
+                return;
+            }
+
+            let total = 0;
+            carrito.forEach(item => {
+                const productoHTML = `
+                <div class="col-md-12 mb-4">
+                    <div class="row align-items-center">
+                        <div class="col-md-2 text-center">
+                            <img src="img/${item.nombre.replace(/\s+/g, '')}.png" 
+                                alt="${item.nombre}" 
+                                class="img-fluid rounded" 
+                                style="max-width: 100px;">
+                            <p class="mt-2 text-muted small">Producto</p>
+                        </div>
+                        <div class="col-md-10">
+                            <h5 class="fw-bold">${item.nombre}</h5>
+                            <p class="text-secondary small mb-1">Cantidad: ${item.cantidad}</p>
+                            <p class="fs-5 text-success fw-bold">${formatearPrecio(item.precio)}</p>
+                        </div>
+                    </div>
+                </div>`;
+                contenedor.insertAdjacentHTML("beforeend", productoHTML);
+                total += item.precio * item.cantidad;
+            });
+
+            totalTxt.textContent = "Total: " + formatearPrecio(total);
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            renderCarrito();
+
+            document.getElementById("vaciar").addEventListener("click", () => {
+                localStorage.removeItem("miCarrito");
+                renderCarrito();
+            });
+        });
+        </script>
+
+        <script>
+        async function confirmarPedido() {
+            const raw = localStorage.getItem("miCarrito");
+            const carrito = raw ? JSON.parse(raw) : [];
+
+            if (carrito.length === 0) {
+                alert("🛒 El carrito está vacío");
+                return;
+            }
+
+            const metodoEntrega = document.querySelector('input[name="entrega"]:checked').value;
+            const metodoPago = document.querySelector("select").value;
+            const total = carrito.reduce((sum, item) => sum + (item.precio * item.cantidad), 0);
+
+            const pedido = { productos: carrito, total, metodoEntrega, metodoPago };
+
+            try {
+                const respuesta = await fetch("http://localhost:3000/api/pedidos", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(pedido)
+                });
+
+                if (respuesta.ok) {
+                    alert("✅ Pedido enviado con éxito");
+                    localStorage.removeItem("miCarrito");
+                    renderCarrito();
+                } else {
+                alert("❌ Error al enviar el pedido");
+                }
+            } catch (error) {
+                console.error(error);
+                alert("⚠️ No se pudo conectar con el servidor");
+            }
+        }
+        </script>
     </body>
 </html>
